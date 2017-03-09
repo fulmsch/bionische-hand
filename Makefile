@@ -3,8 +3,7 @@ LEAPLIBDIR := LeapSDK/lib
 
 ifeq ($(ARCH), x86_64)
 	LIBDIR=$(LEAPLIBDIR)/x64
-endif
-ifeq ($(ARCH), i386)
+else
 	LIBDIR=$(LEAPLIBDIR)/x86
 endif
 
