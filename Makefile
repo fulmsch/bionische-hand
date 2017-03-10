@@ -40,9 +40,6 @@ all: hmi
 hmi: $(OBJS)
 	$(LD) -o $(TARGET) $(OBJS) $(LDFLAGS) $(LIBS)
 
-main.o: $(SRCDIR)/main.cpp
-	$(CC) -c $(CCFLAGS) $(SRCDIR)/main.cpp $(GTKLIB) -o main.o
-
 src/resources.cpp: glade/resources.xml glade/ui.glade
 	cd glade && glib-compile-resources --target=../$(SRCDIR)/resources.cpp --generate-source resources.xml
 
