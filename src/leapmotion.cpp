@@ -1,7 +1,8 @@
 #include "leapmotion.h"
 
 #include <iostream>
-//#include "hmi.h"
+
+volatile t_leap_status leap_status;
 
 void HandListener::onInit(const Leap::Controller& controller) {
 	std::cout << "LeapMotion initialisiert" << std::endl;
@@ -10,7 +11,6 @@ void HandListener::onInit(const Leap::Controller& controller) {
 void HandListener::onConnect(const Leap::Controller& controller) {
 	std::cout << "LeapMotion verbunden" << std::endl;
 	leap_status = CONNECTED;
-//	hmi->buffer_leap_status->set_text(Glib::ustring("Der LeapMotion-Controller wurde verbunden"));
 }
 
 void HandListener::onFrame(const Leap::Controller& controller) {
@@ -22,17 +22,9 @@ void HandListener::onFrame(const Leap::Controller& controller) {
 		case 0:
 			//Fehlermeldung, keine Hand erkannt
 			leap_status = NOHAND;
-//			hmi->buffer_leap_status->set_text(Glib::ustring("Keine Hand im Blickfeld erkannt"));
 			break;
 		case 1:
 			leap_status = TRACKING;
-			/*
-			if (hmi->switch_leap_ein->get_state()) {
-				hmi->buffer_leap_status->set_text(Glib::ustring("Die Handerfassung läuft"));
-			} else {
-				hmi->buffer_leap_status->set_text(Glib::ustring("Die Handerfassung ist bereit"));
-			}
-			*/
 			/*
 			const Leap::Hand hand = frame.hands()[0];
 			const Leap::FingerList fingers = hand.fingers();
@@ -54,7 +46,6 @@ void HandListener::onFrame(const Leap::Controller& controller) {
 		default:
 			//Fehlermeldung, es darf nur eine Hand im Blickfeld sein
 			leap_status = TOOMANYHANDS;
-//			hmi->buffer_leap_status->set_text(Glib::ustring("Es darf sich nur eine Hand im Blickfeld befinden!"));
 			break;
 	}
 }

@@ -3,13 +3,13 @@
 
 #include "Leap.h"
 
-enum {
+typedef enum {
 	MISSING,
 	CONNECTED,
 	NOHAND,
 	TRACKING,
 	TOOMANYHANDS
-} leap_status;
+} t_leap_status;
 
 class HandListener : public Leap::Listener {
 	public:

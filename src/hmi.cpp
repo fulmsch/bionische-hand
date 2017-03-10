@@ -5,6 +5,7 @@
 #include "leapmotion.h"
 
 extern S7Server *server;
+extern volatile t_leap_status leap_status;
 
 GResource *resources_get_resource(void);
 
@@ -227,6 +228,7 @@ bool Hmi::timeout_update() {
 		default:
 			break;
 	}
+	printf("timeout update\n");
 
 	return true;
 }
