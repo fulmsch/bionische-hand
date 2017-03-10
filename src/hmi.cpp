@@ -105,6 +105,7 @@ void Hmi::main_switch_page(Gtk::Widget* page, guint page_number) {
 	printf("seite %d\n", page_number);
 	timeout_zeichen_conn.disconnect();
 	leap_aktiv = false;
+	switch_leap_ein->set_state(false);
 	switch (page_number) {
 		case 0:
 			printf("start\n");
