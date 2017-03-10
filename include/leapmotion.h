@@ -3,6 +3,14 @@
 
 #include "Leap.h"
 
+enum {
+	MISSING,
+	CONNECTED,
+	NOHAND,
+	TRACKING,
+	TOOMANYHANDS
+} leap_status;
+
 class HandListener : public Leap::Listener {
 	public:
 		virtual void onInit(const Leap::Controller&);

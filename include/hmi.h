@@ -72,6 +72,7 @@ class Hmi
 		Gtk::TextView   *text_leap_status = nullptr;
 		Glib::RefPtr<Gtk::TextBuffer> buffer_leap_status;
 
+		bool timeout_update();
 
 		Glib::RefPtr<Gtk::Builder> m_refBuilder;
 

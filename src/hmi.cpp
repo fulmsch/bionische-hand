@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "s7server.h"
+#include "leapmotion.h"
 
 extern S7Server *server;
 
@@ -73,7 +74,9 @@ Hmi::Hmi(): pincode("1234")
 	switch_leap_ein->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::leap_ein_state_set));
 	ui->get_widget("text_leap_status", text_leap_status);
 	buffer_leap_status = text_leap_status->get_buffer();
-	buffer_leap_status->set_text(Glib::ustring("Es liegt ein Problem mit dem LeapMotion-Controller vor"));
+	leap_status = MISSING;
+
+	Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_update), 20);
 
 
 	ui->get_widget("window_main", pWindow);
@@ -198,6 +201,34 @@ bool Hmi::timeout_zeichen_endlos_grund() {
 }
 
 void Hmi::leap_ein_state_set(Gtk::StateFlags previous_state_flags) {
+}
+
+bool Hmi::timeout_update() {
+	switch (leap_status) {
+		case MISSING:
+			buffer_leap_status->set_text(Glib::ustring("Es liegt ein Problem mit dem LeapMotion-Controller vor"));
+			break;
+		case CONNECTED:
+			buffer_leap_status->set_text(Glib::ustring("Der LeapMotion-Controller wurde verbunden"));
+			break;
+		case NOHAND:
+			buffer_leap_status->set_text(Glib::ustring("Keine Hand im Blickfeld erkannt"));
+			break;
+		case TRACKING:
+			if (switch_leap_ein->get_state()) {
+				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung läuft"));
+			} else {
+				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung ist bereit"));
+			}
+			break;
+		case TOOMANYHANDS:
+			buffer_leap_status->set_text(Glib::ustring("Es darf sich nur eine Hand im Blickfeld befinden!"));
+			break;
+		default:
+			break;
+	}
+
+	return true;
 }
 
 
