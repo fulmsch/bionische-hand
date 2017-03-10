@@ -77,7 +77,7 @@ void HandListener::winkelBerechnen(const Leap::Hand& hand, unsigned char *winkel
 	winkel[4] = rad * 180.0 / M_PI;
 
 	// Mittelfinger
-	const Leap::Finger mittelfinger = fingers.fingerType(Leap::Finger::TYPE_INDEX)[0];
+	const Leap::Finger mittelfinger = fingers.fingerType(Leap::Finger::TYPE_MIDDLE)[0];
 	rad = mittelfinger.bone(Leap::Bone::TYPE_METACARPAL).direction().angleTo(mittelfinger.bone(Leap::Bone::TYPE_PROXIMAL).direction());
 	winkel[5] = rad * 180.0 / M_PI;
 	rad = mittelfinger.bone(Leap::Bone::TYPE_PROXIMAL).direction().angleTo(mittelfinger.bone(Leap::Bone::TYPE_INTERMEDIATE).direction());
@@ -86,7 +86,7 @@ void HandListener::winkelBerechnen(const Leap::Hand& hand, unsigned char *winkel
 	winkel[7] = rad * 180.0 / M_PI;
 
 	// Ringfinger
-	const Leap::Finger ringfinger = fingers.fingerType(Leap::Finger::TYPE_INDEX)[0];
+	const Leap::Finger ringfinger = fingers.fingerType(Leap::Finger::TYPE_RING)[0];
 	rad = ringfinger.bone(Leap::Bone::TYPE_METACARPAL).direction().angleTo(ringfinger.bone(Leap::Bone::TYPE_PROXIMAL).direction());
 	winkel[8] = rad * 180.0 / M_PI;
 	rad = ringfinger.bone(Leap::Bone::TYPE_PROXIMAL).direction().angleTo(ringfinger.bone(Leap::Bone::TYPE_INTERMEDIATE).direction());
@@ -95,7 +95,7 @@ void HandListener::winkelBerechnen(const Leap::Hand& hand, unsigned char *winkel
 	winkel[10] = rad * 180.0 / M_PI;
 
 	// Kleiner Finger
-	const Leap::Finger kleinerfinger = fingers.fingerType(Leap::Finger::TYPE_INDEX)[0];
+	const Leap::Finger kleinerfinger = fingers.fingerType(Leap::Finger::TYPE_PINKY)[0];
 	rad = kleinerfinger.bone(Leap::Bone::TYPE_METACARPAL).direction().angleTo(kleinerfinger.bone(Leap::Bone::TYPE_PROXIMAL).direction());
 	winkel[11] = rad * 180.0 / M_PI;
 	rad = kleinerfinger.bone(Leap::Bone::TYPE_PROXIMAL).direction().angleTo(kleinerfinger.bone(Leap::Bone::TYPE_INTERMEDIATE).direction());
