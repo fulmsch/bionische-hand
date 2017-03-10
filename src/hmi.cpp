@@ -1,5 +1,8 @@
 #include "hmi.h"
 
+#include "main.h"
+#include "s7server.h"
+
 extern S7Server *server;
 
 GResource *resources_get_resource(void);
@@ -63,6 +66,14 @@ Hmi::Hmi(): pincode("1234")
 //	switch_zeichen_man->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::zeichen_man_state_set));
 	ui->get_widget("radio_zeichen_endlos", radio_zeichen_endlos);
 //	switch_zeichen_endlos->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::zeichen_endlos_state_set));
+
+
+// Seite "LeapMotion"
+	ui->get_widget("switch_leap_ein", switch_leap_ein);
+	switch_leap_ein->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::leap_ein_state_set));
+	ui->get_widget("text_leap_status", text_leap_status);
+	buffer_leap_status = text_leap_status->get_buffer();
+	buffer_leap_status->set_text(Glib::ustring("Es liegt ein Problem mit dem LeapMotion-Controller vor"));
 
 
 	ui->get_widget("window_main", pWindow);
@@ -184,6 +195,9 @@ bool Hmi::timeout_zeichen_endlos_grund() {
 	printf("endlos grund\n");
 	timeout_zeichen_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_zeichen_endlos_fahren), timeout_zeichen_value);
 	return false;
+}
+
+void Hmi::leap_ein_state_set(Gtk::StateFlags previous_state_flags) {
 }
 
 

@@ -6,8 +6,6 @@
     <property name="width_request">1024</property>
     <property name="height_request">768</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">HMI Bionische Hand</property>
-    <property name="decorated">False</property>
     <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">
@@ -49,8 +47,8 @@
                     <property name="label" translatable="yes">&lt;-Gespeicherte Handzeichen anfahren</property>
                   </object>
                   <packing>
-                    <property name="x">111</property>
-                    <property name="y">583</property>
+                    <property name="x">5</property>
+                    <property name="y">100</property>
                   </packing>
                 </child>
                 <child>
@@ -62,8 +60,8 @@
                     <property name="label" translatable="yes">&lt;-Die Bionische Hand durch die eigene Handbewegung steuern</property>
                   </object>
                   <packing>
-                    <property name="x">100</property>
-                    <property name="y">630</property>
+                    <property name="x">5</property>
+                    <property name="y">145</property>
                   </packing>
                 </child>
                 <child>
@@ -75,8 +73,8 @@
                     <property name="label" translatable="yes">&lt;-Inbetriebnahme und Parametrierung</property>
                   </object>
                   <packing>
-                    <property name="x">103</property>
-                    <property name="y">540</property>
+                    <property name="x">5</property>
+                    <property name="y">55</property>
                   </packing>
                 </child>
               </object>
@@ -743,11 +741,10 @@ Die Bionische Hand wird die erkannten Handbewegungen nachahmen.</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch">
+                          <object class="GtkSwitch" id="switch_leap_ein">
                             <property name="width_request">100</property>
                             <property name="height_request">60</property>
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                           </object>
                           <packing>
@@ -781,7 +778,7 @@ Die Bionische Hand wird die erkannten Handbewegungen nachahmen.</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkTextView">
+                          <object class="GtkTextView" id="text_leap_status">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>

@@ -55,7 +55,7 @@ hmi.o: $(SRCDIR)/hmi.cpp
 	$(CC) -c $(CCFLAGS) $(SRCDIR)/hmi.cpp $(GTKLIB) -o hmi.o
 
 leapmotion.o: $(SRCDIR)/leapmotion.cpp
-	$(CC) -c $(CCFLAGS) $(SRCDIR)/leapmotion.cpp -o leapmotion.o
+	$(CC) -c $(CCFLAGS) $(SRCDIR)/leapmotion.cpp $(GTKLIB) -o leapmotion.o
 
 snap7.o: $(SRCDIR)/snap7.cpp
 	$(CC) -c $(CCFLAGS) $(SRCDIR)/snap7.cpp -o snap7.o

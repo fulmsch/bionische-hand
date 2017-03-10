@@ -2,8 +2,6 @@
 #define HMI_H
 
 #include <gtkmm.h>
-#include "main.h"
-#include "s7server.h"
 
 class Hmi
 {
@@ -12,7 +10,7 @@ class Hmi
 //		virtual ~Hmi();
 		bool run();
 
-	private:
+
 		void stopp_clicked();
 		void reset_clicked();
 		Gtk::Button *button_stopp = nullptr;
@@ -65,6 +63,14 @@ class Hmi
 		bool timeout_zeichen_endlos_fahren();
 		bool timeout_zeichen_endlos_grund();
 		const int timeout_zeichen_value = 3000;
+
+
+		// Seite "LeapMotion"
+		void leap_ein_state_set(Gtk::StateFlags);
+
+		Gtk::Switch     *switch_leap_ein = nullptr;
+		Gtk::TextView   *text_leap_status = nullptr;
+		Glib::RefPtr<Gtk::TextBuffer> buffer_leap_status;
 
 
 		Glib::RefPtr<Gtk::Builder> m_refBuilder;

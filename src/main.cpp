@@ -1,11 +1,13 @@
 //#include <gtkmm.h>
 //#include <glib.h>
+#include "main.h"
 #include "hmi.h"
 #include "leapmotion.h"
 #include "s7server.h"
 //#include "main.h"
 
 S7Server *server;
+Hmi *hmi;
 
 int main(int argc, char **argv)
 {
@@ -20,8 +22,8 @@ int main(int argc, char **argv)
 	controller.addListener(listener);
 
 	//Gtk application
-	Hmi hmi;
-	hmi.run();
+	hmi = new Hmi;
+	hmi->run();
 
 	controller.removeListener(listener);
 
