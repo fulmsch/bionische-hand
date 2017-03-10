@@ -23,15 +23,13 @@ WARN=-Wall
 
 PTHREAD=-pthread
 
-CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(PTHREAD) -I$(INCDIR) -I$(LEAPINCDIR) -pipe
-
 GTKLIB=`pkg-config --cflags --libs gtkmm-3.0`
+
+CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(PTHREAD) $(GTKLIB) -I$(INCDIR) -I$(LEAPINCDIR) -pipe
 
 # linker
 LD=g++
 LDFLAGS=$(PTHREAD) $(GTKLIB) -export-dynamic
-#LIBS= -lsnap7 -Llib${_arch}/ -Wl,-Bstatic -lLeap
-#LIBS= -lsnap7 -lLeap
 LIBS= -lsnap7 -Wl,-rpath,$(LIBDIR) $(LIBDIR)/libLeap.so
 OBJS= main.o resources.o hmi.o leapmotion.o snap7.o s7server.o
 
@@ -48,20 +46,8 @@ main.o: $(SRCDIR)/main.cpp
 src/resources.cpp: glade/resources.xml glade/ui.glade
 	cd glade && glib-compile-resources --target=../$(SRCDIR)/resources.cpp --generate-source resources.xml
 
-resources.o: $(SRCDIR)/resources.cpp
-	$(CC) -c $(CCFLAGS) $(SRCDIR)/resources.cpp $(GTKLIB) -o resources.o
-
-hmi.o: $(SRCDIR)/hmi.cpp
-	$(CC) -c $(CCFLAGS) $(SRCDIR)/hmi.cpp $(GTKLIB) -o hmi.o
-
-leapmotion.o: $(SRCDIR)/leapmotion.cpp
-	$(CC) -c $(CCFLAGS) $(SRCDIR)/leapmotion.cpp $(GTKLIB) -o leapmotion.o
-
-snap7.o: $(SRCDIR)/snap7.cpp
-	$(CC) -c $(CCFLAGS) $(SRCDIR)/snap7.cpp -o snap7.o
-
-s7server.o: $(SRCDIR)/s7server.cpp
-	$(CC) -c $(CCFLAGS) $(SRCDIR)/s7server.cpp -o s7server.o
+%.o: $(SRCDIR)/%.cpp
+	$(CC) -c $(CCFLAGS) $< -o $@
 
 run:
 	authbind ./hmi
