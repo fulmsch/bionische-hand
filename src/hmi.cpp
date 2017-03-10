@@ -7,6 +7,8 @@
 extern S7Server *server;
 extern volatile t_leap_status leap_status;
 
+volatile bool leap_aktiv = false;
+
 GResource *resources_get_resource(void);
 
 Hmi::Hmi(): pincode("1234")
@@ -18,6 +20,11 @@ Hmi::Hmi(): pincode("1234")
 	app = Gtk::Application::create("");
 
 	auto ui = Gtk::Builder::create_from_resource("/hmi/ui.glade");
+
+	Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_update), 20);
+
+	ui->get_widget("notebook_main", notebook_main);
+	notebook_main->signal_switch_page().connect(sigc::mem_fun(*this, &Hmi::main_switch_page));
 
 
 	ui->get_widget("button_stopp", button_stopp);
@@ -32,8 +39,12 @@ Hmi::Hmi(): pincode("1234")
 	button_reset->override_background_color(Gdk::RGBA("white"));
 	button_reset->override_color(Gdk::RGBA("blue"));
 
+// Seite "Start"
+//	ui->get_widget("fixed_start", fixed_start);
 
 // Seite "Einrichten"
+//	ui->get_widget("box_einrichten", box_einrichten);
+
 	ui->get_widget("entry_einrichten_pincode", entry_einrichten_pincode);
 	entry_einrichten_pincode->signal_activate().connect(sigc::mem_fun(*this, &Hmi::einrichten_entsperren_clicked));
 	ui->get_widget("label_einrichten_pincode_falsch", label_einrichten_pincode_falsch);
@@ -54,6 +65,8 @@ Hmi::Hmi(): pincode("1234")
 
 
 // Seite "Handzeichen"
+//	ui->get_widget("box_zeichen", box_zeichen);
+
 	ui->get_widget("button_zeichen_faust", button_zeichen_faust);
 	button_zeichen_faust->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_faust_clicked));
 	ui->get_widget("button_zeichen_peace", button_zeichen_peace);
@@ -71,13 +84,13 @@ Hmi::Hmi(): pincode("1234")
 
 
 // Seite "LeapMotion"
+//	ui->get_widget("box_leap", box_leap);
+
 	ui->get_widget("switch_leap_ein", switch_leap_ein);
 	switch_leap_ein->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::leap_ein_state_set));
 	ui->get_widget("text_leap_status", text_leap_status);
 	buffer_leap_status = text_leap_status->get_buffer();
 	leap_status = MISSING;
-
-	Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_update), 20);
 
 
 	ui->get_widget("window_main", pWindow);
@@ -87,6 +100,29 @@ Hmi::Hmi(): pincode("1234")
 //Hmi::~Hmi() {
 //
 //}
+
+void Hmi::main_switch_page(Gtk::Widget* page, guint page_number) {
+	printf("seite %d\n", page_number);
+	timeout_zeichen_conn.disconnect();
+	leap_aktiv = false;
+	switch (page_number) {
+		case 0:
+			printf("start\n");
+			break;
+		case 1:
+			printf("einrichten\n");
+			break;
+		case 2:
+			printf("zeichen\n");
+			break;
+		case 3:
+			printf("leap\n");
+			break;
+		default:
+			break;
+	}
+
+}
 
 void Hmi::stopp_clicked() {
 	button_reset->set_sensitive(true);
@@ -202,6 +238,7 @@ bool Hmi::timeout_zeichen_endlos_grund() {
 }
 
 void Hmi::leap_ein_state_set(Gtk::StateFlags previous_state_flags) {
+	leap_aktiv = switch_leap_ein->get_state();
 }
 
 bool Hmi::timeout_update() {
@@ -228,8 +265,6 @@ bool Hmi::timeout_update() {
 		default:
 			break;
 	}
-	printf("timeout update\n");
-
 	return true;
 }
 

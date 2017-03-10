@@ -10,13 +10,25 @@ class Hmi
 //		virtual ~Hmi();
 		bool run();
 
+	private:
+		bool timeout_update();
+
+		Gtk::Notebook *notebook_main = nullptr;
+		void main_switch_page(Gtk::Widget* page, guint page_number);
+
 
 		void stopp_clicked();
 		void reset_clicked();
 		Gtk::Button *button_stopp = nullptr;
 		Gtk::Button *button_reset = nullptr;
 
+		// Seite "Start"
+//		Gtk::Fixed *fixed_start = nullptr;
+
+
 		// Seite "Einrichten"
+//		Gtk::Box *box_einrichten = nullptr;
+
 		Glib::ustring pincode;
 
 		void einrichten_entsperren_clicked();
@@ -39,6 +51,8 @@ class Hmi
 
 
 		// Seite "Handzeichen"
+//		Gtk::Box *box_zeichen = nullptr;
+
 		void zeichen_faust_clicked();
 		void zeichen_peace_clicked();
 		void zeichen_daumenhoch_clicked();
@@ -66,13 +80,14 @@ class Hmi
 
 
 		// Seite "LeapMotion"
+//		Gtk::Box *box_leap = nullptr;
+
 		void leap_ein_state_set(Gtk::StateFlags);
 
 		Gtk::Switch     *switch_leap_ein = nullptr;
 		Gtk::TextView   *text_leap_status = nullptr;
 		Glib::RefPtr<Gtk::TextBuffer> buffer_leap_status;
 
-		bool timeout_update();
 
 		Glib::RefPtr<Gtk::Builder> m_refBuilder;
 

@@ -26,6 +26,8 @@ class HandListener : public Leap::Listener {
 //		virtual void onServiceChange(const Controller&);
 //		virtual void onDeviceFailure(const Controller&);
 //		virtual void onDiagnosticEvent(const Controller&, const char*);
+	private:
+		void winkelBerechnen(const Leap::Hand&, unsigned char *winkel);
 };
 
 #endif
