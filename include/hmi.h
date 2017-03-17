@@ -20,8 +20,10 @@ class Hmi
 		void main_switch_page(Gtk::Widget* page, guint page_number);
 
 
-		void stopp_clicked();
-		void reset_clicked();
+		void stopp_pressed();
+		void stopp_released();
+		void reset_pressed();
+		void reset_released();
 		Gtk::Button *button_stopp = nullptr;
 		Gtk::Button *button_reset = nullptr;
 

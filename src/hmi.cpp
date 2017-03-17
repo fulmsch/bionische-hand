@@ -28,14 +28,16 @@ Hmi::Hmi(): pincode("1234")
 
 
 	ui->get_widget("button_stopp", button_stopp);
-	button_stopp->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::stopp_clicked));
+	button_stopp->signal_pressed().connect(sigc::mem_fun(*this, &Hmi::stopp_pressed));
+	button_stopp->signal_released().connect(sigc::mem_fun(*this, &Hmi::stopp_released));
 	button_stopp->override_background_color(Gdk::RGBA("red"));
 	button_stopp->override_background_color(Gdk::RGBA("white"), Gtk::STATE_FLAG_ACTIVE);
 	button_stopp->override_color(Gdk::RGBA("white"));
 	button_stopp->override_color(Gdk::RGBA("red"), Gtk::STATE_FLAG_ACTIVE);
 
 	ui->get_widget("button_reset", button_reset);
-	button_reset->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::reset_clicked));
+	button_reset->signal_pressed().connect(sigc::mem_fun(*this, &Hmi::reset_pressed));
+	button_reset->signal_released().connect(sigc::mem_fun(*this, &Hmi::reset_released));
 	button_reset->override_background_color(Gdk::RGBA("white"));
 	button_reset->override_color(Gdk::RGBA("blue"));
 
@@ -128,7 +130,12 @@ void Hmi::main_switch_page(Gtk::Widget* page, guint page_number) {
 
 }
 
-void Hmi::stopp_clicked() {
+void Hmi::stopp_pressed() {
+	server->DB_Send.s.stopp = true;
+}
+
+void Hmi::stopp_released() {
+	server->DB_Send.s.stopp = false;
 	button_reset->set_sensitive(true);
 	button_reset->override_background_color(Gdk::RGBA("blue"));
 	button_reset->override_background_color(Gdk::RGBA("white"), Gtk::STATE_FLAG_ACTIVE);
@@ -136,7 +143,13 @@ void Hmi::stopp_clicked() {
 	button_reset->override_color(Gdk::RGBA("blue"), Gtk::STATE_FLAG_ACTIVE);
 }
 
-void Hmi::reset_clicked() {
+void Hmi::reset_pressed() {
+	server->DB_Send.s.reset = true;
+	setAngles(zeichen_grund);
+}
+
+void Hmi::reset_released() {
+	server->DB_Send.s.reset = false;
 	button_reset->set_sensitive(false);
 	button_reset->override_background_color(Gdk::RGBA("white"));
 	button_reset->override_color(Gdk::RGBA("blue"));

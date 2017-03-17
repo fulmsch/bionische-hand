@@ -16,6 +16,8 @@ class S7Server : public TS7Server
 				unsigned char lin_ein : 1;
 				unsigned char lin_reset : 1;
 				unsigned char lin_grundstellung : 1;
+				unsigned char stopp : 1;
+				unsigned char reset : 1;
 			} s;
 		} DB_Send;
 
