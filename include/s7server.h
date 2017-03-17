@@ -22,6 +22,7 @@ class S7Server : public TS7Server
 		union {
 			unsigned char a[256];
 			struct {
+				uint16_t lin_status;
 
 			} s;
 		} DB_Recv;

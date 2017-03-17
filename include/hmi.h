@@ -13,6 +13,9 @@ class Hmi
 	private:
 		bool timeout_update();
 
+		void update_leap_status();
+		void update_lin_status();
+
 		Gtk::Notebook *notebook_main = nullptr;
 		void main_switch_page(Gtk::Widget* page, guint page_number);
 
@@ -48,6 +51,9 @@ class Hmi
 		Gtk::Switch *switch_einrichten_lin_ein = nullptr;
 		Gtk::Button *button_einrichten_lin_reset = nullptr;
 		Gtk::Button *button_einrichten_lin_grund = nullptr;
+
+		Gtk::TextView   *text_einrichten_lin_status = nullptr;
+		Glib::RefPtr<Gtk::TextBuffer> buffer_einrichten_lin_status;
 
 
 		// Seite "Handzeichen"

@@ -63,6 +63,9 @@ Hmi::Hmi(): pincode("1234")
 	button_einrichten_lin_grund->signal_pressed().connect(sigc::mem_fun(*this, &Hmi::einrichten_lin_grund_pressed));
 	button_einrichten_lin_grund->signal_released().connect(sigc::mem_fun(*this, &Hmi::einrichten_lin_grund_released));
 
+	ui->get_widget("text_einrichten_lin_status", text_einrichten_lin_status);
+	buffer_einrichten_lin_status = text_einrichten_lin_status->get_buffer();
+
 
 // Seite "Handzeichen"
 //	ui->get_widget("box_zeichen", box_zeichen);
@@ -102,26 +105,26 @@ Hmi::Hmi(): pincode("1234")
 //}
 
 void Hmi::main_switch_page(Gtk::Widget* page, guint page_number) {
-	printf("seite %d\n", page_number);
+//	printf("seite %d\n", page_number);
 	timeout_zeichen_conn.disconnect();
 	leap_aktiv = false;
 	switch_leap_ein->set_state(false);
-	switch (page_number) {
-		case 0:
-			printf("start\n");
-			break;
-		case 1:
-			printf("einrichten\n");
-			break;
-		case 2:
-			printf("zeichen\n");
-			break;
-		case 3:
-			printf("leap\n");
-			break;
-		default:
-			break;
-	}
+//	switch (page_number) {
+//		case 0:
+//			printf("start\n");
+//			break;
+//		case 1:
+//			printf("einrichten\n");
+//			break;
+//		case 2:
+//			printf("zeichen\n");
+//			break;
+//		case 3:
+//			printf("leap\n");
+//			break;
+//		default:
+//			break;
+//	}
 
 }
 
@@ -243,6 +246,12 @@ void Hmi::leap_ein_state_set(Gtk::StateFlags previous_state_flags) {
 }
 
 bool Hmi::timeout_update() {
+	update_leap_status();
+	update_lin_status();
+	return true;
+}
+
+void Hmi::update_leap_status() {
 	switch (leap_status) {
 		case MISSING:
 			buffer_leap_status->set_text(Glib::ustring("Es liegt ein Problem mit dem LeapMotion-Controller vor"));
@@ -266,9 +275,26 @@ bool Hmi::timeout_update() {
 		default:
 			break;
 	}
-	return true;
 }
 
+void Hmi::update_lin_status() {
+	server->LockArea(srvAreaDB, 2);
+	if (server->DB_Recv.s.lin_status & 0b0011111111111111) {
+		text_einrichten_lin_status->override_color(Gdk::RGBA("red"));
+		buffer_einrichten_lin_status->set_text(Glib::ustring("Folgende Lineareinheiten melden einen Fehler: "));
+		for (int i = 0; i < 14; i++) {
+			if (server->DB_Recv.s.lin_status & (1 << i)) {
+				buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\n"));
+				buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring::format(i + 1));
+			}
+		}
+//		buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\b\b."));
+	} else {
+		buffer_einrichten_lin_status->set_text(Glib::ustring("Keine Fehlermeldungen."));
+		text_einrichten_lin_status->unset_color();
+	}
+	server->UnlockArea(srvAreaDB, 2);
+}
 
 bool Hmi::run() {
 //	return app->iteration(true);
