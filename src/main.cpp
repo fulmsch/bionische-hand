@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	//Snap7 server
 	server = new S7Server;
 	setAngles(zeichen_grund);
-	server->Start();
+	server->StartTo("192.168.0.100");
 
 	//LeapMotion
 	HandListener listener;
