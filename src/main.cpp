@@ -6,6 +6,8 @@
 #include "s7server.h"
 //#include "main.h"
 
+volatile int retStatus = 0;
+
 S7Server *server;
 Hmi *hmi;
 
@@ -29,7 +31,7 @@ int main(int argc, char **argv)
 
 	server->Stop();
 	delete server;
-	return 0;
+	return retStatus;
 }
 
 void setAngles(unsigned char *source) {

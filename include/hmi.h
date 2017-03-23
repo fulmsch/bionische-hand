@@ -45,6 +45,11 @@ class Hmi
 		void einrichten_lin_grund_pressed();
 		void einrichten_lin_grund_released();
 
+		void einrichten_minimieren_clicked();
+		void einrichten_schliessen_clicked();
+		void einrichten_reboot_clicked();
+		void einrichten_shutdown_clicked();
+
 		Gtk::Entry  *entry_einrichten_pincode = nullptr;
 		Gtk::Label  *label_einrichten_pincode_falsch = nullptr;
 		Gtk::Button *button_einrichten_entsperren = nullptr;
@@ -56,6 +61,11 @@ class Hmi
 
 		Gtk::TextView   *text_einrichten_lin_status = nullptr;
 		Glib::RefPtr<Gtk::TextBuffer> buffer_einrichten_lin_status;
+
+		Gtk::Button *button_einrichten_minimieren = nullptr;
+		Gtk::Button *button_einrichten_schliessen = nullptr;
+		Gtk::Button *button_einrichten_reboot = nullptr;
+		Gtk::Button *button_einrichten_shutdown = nullptr;
 
 
 		// Seite "Handzeichen"

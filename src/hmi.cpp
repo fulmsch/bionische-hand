@@ -6,6 +6,7 @@
 
 extern S7Server *server;
 extern volatile t_leap_status leap_status;
+extern volatile int retStatus;
 
 volatile bool leap_aktiv = false;
 
@@ -68,6 +69,14 @@ Hmi::Hmi(): pincode("1234")
 	ui->get_widget("text_einrichten_lin_status", text_einrichten_lin_status);
 	buffer_einrichten_lin_status = text_einrichten_lin_status->get_buffer();
 
+	ui->get_widget("button_einrichten_minimieren", button_einrichten_minimieren);
+	button_einrichten_minimieren->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::einrichten_minimieren_clicked));
+	ui->get_widget("button_einrichten_schliessen", button_einrichten_schliessen);
+	button_einrichten_schliessen->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::einrichten_schliessen_clicked));
+	ui->get_widget("button_einrichten_reboot", button_einrichten_reboot);
+	button_einrichten_reboot->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::einrichten_reboot_clicked));
+	ui->get_widget("button_einrichten_shutdown", button_einrichten_shutdown);
+	button_einrichten_shutdown->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::einrichten_shutdown_clicked));
 
 // Seite "Handzeichen"
 //	ui->get_widget("box_zeichen", box_zeichen);
@@ -121,6 +130,7 @@ Hmi::Hmi(): pincode("1234")
 
 
 	ui->get_widget("window_main", pWindow);
+	pWindow->fullscreen();
 	pWindow->show();
 }
 
@@ -223,6 +233,25 @@ void Hmi::einrichten_lin_grund_pressed() {
 void Hmi::einrichten_lin_grund_released() {
 	server->DB_Send.s.lin_grundstellung = false;
 	printf("%x\n", server->DB_Send.a[15]);
+}
+
+void Hmi::einrichten_minimieren_clicked() {
+	pWindow->iconify();
+}
+
+void Hmi::einrichten_schliessen_clicked() {
+	retStatus = 50;
+	pWindow->close();
+}
+
+void Hmi::einrichten_reboot_clicked() {
+	retStatus = 51;
+	pWindow->close();
+}
+
+void Hmi::einrichten_shutdown_clicked() {
+	retStatus = 52;
+	pWindow->close();
 }
 
 void Hmi::zeichen_anfahren(unsigned char* zeichen) {
