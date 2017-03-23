@@ -98,6 +98,28 @@ Hmi::Hmi(): pincode("1234")
 	leap_status = MISSING;
 
 
+// Seite "Feineinstellung"
+	//Daumen
+	arr_adj_fein[0]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f0_g0"));
+	arr_adj_fein[1]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f0_g1"));
+	//Zeigefinger
+	arr_adj_fein[2]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f1_g0"));
+	arr_adj_fein[3]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f1_g1"));
+	arr_adj_fein[4]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f1_g2"));
+	//Mittelfinger
+	arr_adj_fein[5]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f2_g0"));
+	arr_adj_fein[6]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f2_g1"));
+	arr_adj_fein[7]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f2_g2"));
+	//Ringfinger
+	arr_adj_fein[8]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f3_g0"));
+	arr_adj_fein[9]  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f3_g1"));
+	arr_adj_fein[10] = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f3_g2"));
+	//Kleiner Finger
+	arr_adj_fein[11] = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f4_g0"));
+	arr_adj_fein[12] = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f4_g1"));
+	arr_adj_fein[13] = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f4_g2"));
+
+
 	ui->get_widget("window_main", pWindow);
 	pWindow->show();
 }
@@ -259,9 +281,29 @@ void Hmi::leap_ein_state_set(Gtk::StateFlags previous_state_flags) {
 }
 
 bool Hmi::timeout_update() {
-	update_leap_status();
-	update_lin_status();
+	int page = notebook_main->get_current_page();
+	switch (page) {
+		case 1:
+			update_lin_status();
+			break;
+		case 3:
+			update_leap_status();
+			break;
+		case 4:
+			update_fein();
+			break;
+		default:
+			break;
+	}
 	return true;
+}
+
+void Hmi::update_fein() {
+	unsigned char winkel[14];
+	for (int i = 0; i < 14; i++) {
+		winkel[i] = arr_adj_fein[i]->get_value();
+	}
+	setAngles(winkel);
 }
 
 void Hmi::update_leap_status() {

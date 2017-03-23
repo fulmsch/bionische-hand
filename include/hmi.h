@@ -97,6 +97,11 @@ class Hmi
 		Glib::RefPtr<Gtk::TextBuffer> buffer_leap_status;
 
 
+		// Seite "Feineinstellung"
+		Glib::RefPtr<Gtk::Adjustment> arr_adj_fein[14];
+		void update_fein();
+
+
 		Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
 		Gtk::Window* pWindow;
