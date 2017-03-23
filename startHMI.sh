@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Es darf nur eine Instanz laufen
+pgrep hmi > /dev/null && exit
+
 while true
 do
 	authbind ./hmi
@@ -10,11 +13,11 @@ do
 		exit
 	elif [ $rc -eq 51 ]
 	then
-#		reboot
+		reboot
 		exit
 	elif [ $rc -eq 52 ]
 	then
-#		poweroff
+		poweroff
 		exit
 	fi
 done
