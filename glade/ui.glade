@@ -1140,6 +1140,8 @@ Die Bionische Hand wird die erkannten Handbewegungen nachahmen.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
+                    <property name="margin_left">10</property>
+                    <property name="margin_right">10</property>
                     <property name="margin_top">10</property>
                     <property name="margin_bottom">10</property>
                     <property name="label" translatable="yes">Auf dieser Seite können Sie die Winkel der einzelnen Fingerglieder genau einstellen.</property>
