@@ -321,23 +321,23 @@ void Hmi::zeichen_grund_clicked() {
 }
 
 void Hmi::zeichen_eigen1_clicked() {
-	setAngles(zeichen1);
+	zeichen_anfahren(zeichen1);
 }
 
 void Hmi::zeichen_eigen2_clicked() {
-	setAngles(zeichen2);
+	zeichen_anfahren(zeichen2);
 }
 
 void Hmi::zeichen_eigen3_clicked() {
-	setAngles(zeichen3);
+	zeichen_anfahren(zeichen3);
 }
 
 void Hmi::zeichen_eigen4_clicked() {
-	setAngles(zeichen4);
+	zeichen_anfahren(zeichen4);
 }
 
 void Hmi::zeichen_eigen5_clicked() {
-	setAngles(zeichen5);
+	zeichen_anfahren(zeichen5);
 }
 
 bool Hmi::timeout_zeichen_auto_grund() {
@@ -449,21 +449,25 @@ void Hmi::update_leap_status() {
 
 void Hmi::update_lin_status() {
 	server->LockArea(srvAreaDB, 2);
-	if (server->DB_Recv.s.lin_status & 0b0011111111111111) {
-		text_einrichten_lin_status->override_color(Gdk::RGBA("red"));
-		buffer_einrichten_lin_status->set_text(Glib::ustring("Folgende Lineareinheiten melden einen Fehler: "));
-		for (int i = 0; i < 14; i++) {
-			if (server->DB_Recv.s.lin_status & (1 << i)) {
-				buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\n"));
-				buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring::format(i + 1));
-			}
-		}
-//		buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\b\b."));
-	} else {
-		buffer_einrichten_lin_status->set_text(Glib::ustring("Keine Fehlermeldungen."));
-		text_einrichten_lin_status->unset_color();
-	}
+	int status = server->DB_Recv.s.lin_status;
 	server->UnlockArea(srvAreaDB, 2);
+	if (status != einrichten_lin_prev_status) {
+		if (status & 0b0011111111111111) {
+			text_einrichten_lin_status->override_color(Gdk::RGBA("red"));
+			buffer_einrichten_lin_status->set_text(Glib::ustring("Folgende Lineareinheiten melden einen Fehler: "));
+			for (int i = 0; i < 14; i++) {
+				if (server->DB_Recv.s.lin_status & (1 << i)) {
+					buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\n"));
+					buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring::format(i + 1));
+				}
+			}
+	//		buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\b\b."));
+		} else {
+			buffer_einrichten_lin_status->set_text(Glib::ustring("Keine Fehlermeldungen."));
+			text_einrichten_lin_status->unset_color();
+		}
+	}
+	einrichten_lin_prev_status = status;
 }
 
 bool Hmi::run() {

@@ -61,6 +61,7 @@ class Hmi
 
 		Gtk::TextView   *text_einrichten_lin_status = nullptr;
 		Glib::RefPtr<Gtk::TextBuffer> buffer_einrichten_lin_status;
+		int einrichten_lin_prev_status;
 
 		Gtk::Button *button_einrichten_minimieren = nullptr;
 		Gtk::Button *button_einrichten_schliessen = nullptr;
