@@ -63,3 +63,21 @@ unsigned char zeichen_daumenhoch[14] = {0, 0,
                                         90, 90, 90,
                                         90, 90, 90,
                                         90, 90, 90};
+
+unsigned char zeichen_mittelfinger[14] = {90, 90,
+                                          90, 90, 90,
+                                          0, 0, 0,
+                                          90, 90, 90,
+                                          90, 90, 90};
+
+unsigned char zeichen_metal[14] = {90, 90,
+                                   0, 0, 0,
+                                   90, 90, 90,
+                                   90, 90, 90,
+                                   0, 0, 0};
+
+unsigned char zeichen1[14] = {0};
+unsigned char zeichen2[14] = {0};
+unsigned char zeichen3[14] = {0};
+unsigned char zeichen4[14] = {0};
+unsigned char zeichen5[14] = {0};

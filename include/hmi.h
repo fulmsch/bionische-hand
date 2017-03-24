@@ -74,6 +74,14 @@ class Hmi
 		void zeichen_faust_clicked();
 		void zeichen_peace_clicked();
 		void zeichen_daumenhoch_clicked();
+		void zeichen_mittelfinger_clicked();
+		void zeichen_metal_clicked();
+
+		void zeichen_eigen1_clicked();
+		void zeichen_eigen2_clicked();
+		void zeichen_eigen3_clicked();
+		void zeichen_eigen4_clicked();
+		void zeichen_eigen5_clicked();
 
 		void zeichen_grund_clicked();
 //		void zeichen_man_state_set(Gtk::StateFlags);
@@ -82,6 +90,14 @@ class Hmi
 		Gtk::Button      *button_zeichen_faust = nullptr;
 		Gtk::Button      *button_zeichen_peace = nullptr;
 		Gtk::Button      *button_zeichen_daumenhoch = nullptr;
+		Gtk::Button      *button_zeichen_mittelfinger = nullptr;
+		Gtk::Button      *button_zeichen_metal = nullptr;
+
+		Gtk::Button      *button_zeichen_eigen1 = nullptr;
+		Gtk::Button      *button_zeichen_eigen2 = nullptr;
+		Gtk::Button      *button_zeichen_eigen3 = nullptr;
+		Gtk::Button      *button_zeichen_eigen4 = nullptr;
+		Gtk::Button      *button_zeichen_eigen5 = nullptr;
 
 		Gtk::Button      *button_zeichen_grund = nullptr;
 		Gtk::RadioButton *radio_zeichen_man = nullptr;
@@ -110,6 +126,19 @@ class Hmi
 		// Seite "Feineinstellung"
 		Glib::RefPtr<Gtk::Adjustment> arr_adj_fein[14];
 		void update_fein();
+		void fein_speichern(unsigned char *);
+
+		void fein_eigen1_clicked();
+		void fein_eigen2_clicked();
+		void fein_eigen3_clicked();
+		void fein_eigen4_clicked();
+		void fein_eigen5_clicked();
+
+		Gtk::Button *button_fein_eigen1 = nullptr;
+		Gtk::Button *button_fein_eigen2 = nullptr;
+		Gtk::Button *button_fein_eigen3 = nullptr;
+		Gtk::Button *button_fein_eigen4 = nullptr;
+		Gtk::Button *button_fein_eigen5 = nullptr;
 
 
 		Glib::RefPtr<Gtk::Builder> m_refBuilder;

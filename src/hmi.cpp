@@ -88,6 +88,23 @@ Hmi::Hmi(): pincode("1234")
 	ui->get_widget("button_zeichen_daumenhoch", button_zeichen_daumenhoch);
 	button_zeichen_daumenhoch->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_daumenhoch_clicked));
 
+	ui->get_widget("button_zeichen_mittelfinger", button_zeichen_mittelfinger);
+	button_zeichen_mittelfinger->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_mittelfinger_clicked));
+
+	ui->get_widget("button_zeichen_metal", button_zeichen_metal);
+	button_zeichen_metal->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_metal_clicked));
+
+	ui->get_widget("button_zeichen_eigen1", button_zeichen_eigen1);
+	button_zeichen_eigen1->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_eigen1_clicked));
+	ui->get_widget("button_zeichen_eigen2", button_zeichen_eigen2);
+	button_zeichen_eigen2->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_eigen2_clicked));
+	ui->get_widget("button_zeichen_eigen3", button_zeichen_eigen3);
+	button_zeichen_eigen3->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_eigen3_clicked));
+	ui->get_widget("button_zeichen_eigen4", button_zeichen_eigen4);
+	button_zeichen_eigen4->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_eigen4_clicked));
+	ui->get_widget("button_zeichen_eigen5", button_zeichen_eigen5);
+	button_zeichen_eigen5->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_eigen5_clicked));
+
 	ui->get_widget("button_zeichen_grund", button_zeichen_grund);
 	button_zeichen_grund->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_grund_clicked));
 	ui->get_widget("radio_zeichen_man", radio_zeichen_man);
@@ -127,6 +144,17 @@ Hmi::Hmi(): pincode("1234")
 	arr_adj_fein[11] = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f4_g0"));
 	arr_adj_fein[12] = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f4_g1"));
 	arr_adj_fein[13] = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_f4_g2"));
+
+	ui->get_widget("button_fein_eigen1", button_fein_eigen1);
+	button_fein_eigen1->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::fein_eigen1_clicked));
+	ui->get_widget("button_fein_eigen2", button_fein_eigen2);
+	button_fein_eigen2->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::fein_eigen2_clicked));
+	ui->get_widget("button_fein_eigen3", button_fein_eigen3);
+	button_fein_eigen3->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::fein_eigen3_clicked));
+	ui->get_widget("button_fein_eigen4", button_fein_eigen4);
+	button_fein_eigen4->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::fein_eigen4_clicked));
+	ui->get_widget("button_fein_eigen5", button_fein_eigen5);
+	button_fein_eigen5->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::fein_eigen5_clicked));
 
 
 	ui->get_widget("window_main", pWindow);
@@ -278,9 +306,37 @@ void Hmi::zeichen_daumenhoch_clicked() {
 	zeichen_anfahren(zeichen_daumenhoch);
 }
 
+void Hmi::zeichen_mittelfinger_clicked() {
+	zeichen_anfahren(zeichen_mittelfinger);
+}
+
+void Hmi::zeichen_metal_clicked() {
+	zeichen_anfahren(zeichen_metal);
+}
+
 void Hmi::zeichen_grund_clicked() {
 	setAngles(zeichen_grund);
 	timeout_zeichen_conn.disconnect();
+}
+
+void Hmi::zeichen_eigen1_clicked() {
+	setAngles(zeichen1);
+}
+
+void Hmi::zeichen_eigen2_clicked() {
+	setAngles(zeichen2);
+}
+
+void Hmi::zeichen_eigen3_clicked() {
+	setAngles(zeichen3);
+}
+
+void Hmi::zeichen_eigen4_clicked() {
+	setAngles(zeichen4);
+}
+
+void Hmi::zeichen_eigen5_clicked() {
+	setAngles(zeichen5);
 }
 
 bool Hmi::timeout_zeichen_auto_grund() {
@@ -333,6 +389,32 @@ void Hmi::update_fein() {
 		winkel[i] = arr_adj_fein[i]->get_value();
 	}
 	setAngles(winkel);
+}
+
+void Hmi::fein_eigen1_clicked() {
+	fein_speichern(zeichen1);
+}
+
+void Hmi::fein_eigen2_clicked() {
+	fein_speichern(zeichen2);
+}
+
+void Hmi::fein_eigen3_clicked() {
+	fein_speichern(zeichen3);
+}
+
+void Hmi::fein_eigen4_clicked() {
+	fein_speichern(zeichen4);
+}
+
+void Hmi::fein_eigen5_clicked() {
+	fein_speichern(zeichen5);
+}
+
+void Hmi::fein_speichern(unsigned char *zeichen) {
+	for (int i = 0; i < 14; i++) {
+		zeichen[i] = arr_adj_fein[i]->get_value();
+	}
 }
 
 void Hmi::update_leap_status() {
