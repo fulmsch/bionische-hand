@@ -104,13 +104,15 @@ class Hmi
 		Gtk::RadioButton *radio_zeichen_auto = nullptr;
 		Gtk::RadioButton *radio_zeichen_endlos = nullptr;
 
+		Glib::RefPtr<Gtk::Adjustment> adj_zeichen_verz;
+
 		void zeichen_anfahren(unsigned char* zeichen);
 		unsigned char* zeichen_aktuell;
 		sigc::connection timeout_zeichen_conn;
 		bool timeout_zeichen_auto_grund();
 		bool timeout_zeichen_endlos_fahren();
 		bool timeout_zeichen_endlos_grund();
-		const int timeout_zeichen_value = 3000;
+		int timeout_zeichen_value = 3000;
 
 
 		// Seite "LeapMotion"

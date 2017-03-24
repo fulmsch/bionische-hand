@@ -111,6 +111,7 @@ Hmi::Hmi(): pincode("1234")
 	ui->get_widget("radio_zeichen_auto", radio_zeichen_auto);
 //	switch_zeichen_man->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::zeichen_man_state_set));
 	ui->get_widget("radio_zeichen_endlos", radio_zeichen_endlos);
+	adj_zeichen_verz  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_zeichen_verz"));
 //	switch_zeichen_endlos->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::zeichen_endlos_state_set));
 
 
@@ -370,6 +371,9 @@ bool Hmi::timeout_update() {
 	switch (page) {
 		case 1:
 			update_lin_status();
+			break;
+		case 2:
+			timeout_zeichen_value = adj_zeichen_verz->get_value() * 1000;
 			break;
 		case 3:
 			update_leap_status();
