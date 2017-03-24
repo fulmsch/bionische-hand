@@ -92,15 +92,43 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="label1">
+          <object class="GtkBox">
+            <property name="height_request">50</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Bionische Hand 2.0</property>
-            <attributes>
-              <attribute name="style" value="normal"/>
-              <attribute name="weight" value="bold"/>
-              <attribute name="scale" value="3"/>
-            </attributes>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="pixbuf">logo_msw.png</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Bionische Hand 2.0</property>
+                <attributes>
+                  <attribute name="style" value="normal"/>
+                  <attribute name="weight" value="bold"/>
+                  <attribute name="scale" value="3"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -118,42 +146,60 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="width_request">295</property>
-                    <property name="height_request">25</property>
+                  <object class="GtkImage">
+                    <property name="width_request">423</property>
+                    <property name="height_request">640</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;-Gespeicherte Handzeichen anfahren</property>
+                    <property name="pixbuf">hand.jpg</property>
                   </object>
                   <packing>
-                    <property name="x">5</property>
-                    <property name="y">100</property>
+                    <property name="x">436</property>
+                    <property name="y">20</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="width_request">486</property>
-                    <property name="height_request">25</property>
+                    <property name="width_request">403</property>
+                    <property name="height_request">90</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;-Die Bionische Hand durch die eigene Handbewegung steuern</property>
+                    <property name="label" translatable="yes">Die Bedienung ist in mehrere Seiten aufgeteilt:
+
+- Einrichten:
+Nur für Fachpersonal
+
+- Handzeichen:
+Gespeicherte Handzeichen anfahren
+
+- Leapmotion:
+Die Bionische Hand durch eigene Handbewegungen steuern
+
+- Feinsteuerung:
+Eigene Handzeichen definieren
+
+
+Für weitere Informationen steht Ihnen das Fachpersonal zur Verfügung</property>
+                    <property name="wrap">True</property>
+                    <property name="max_width_chars">0</property>
                   </object>
                   <packing>
-                    <property name="x">5</property>
-                    <property name="y">145</property>
+                    <property name="x">20</property>
+                    <property name="y">20</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="width_request">296</property>
-                    <property name="height_request">25</property>
+                    <property name="width_request">256</property>
+                    <property name="height_request">36</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;-Inbetriebnahme und Parametrierung</property>
+                    <property name="label" translatable="yes">Lehrabschlussarbeit 2017
+Yannis Müri, Florian Ulmschneider</property>
                   </object>
                   <packing>
-                    <property name="x">5</property>
-                    <property name="y">55</property>
+                    <property name="x">20</property>
+                    <property name="y">660</property>
                   </packing>
                 </child>
               </object>
@@ -1718,7 +1764,7 @@ Die Bionische Hand wird die erkannten Handbewegungen nachahmen.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
-                <property name="label" translatable="yes">Feineinstellung</property>
+                <property name="label" translatable="yes">Feinsteuerung</property>
               </object>
               <packing>
                 <property name="position">4</property>
