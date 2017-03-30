@@ -6,12 +6,7 @@
 volatile t_leap_status leap_status;
 extern volatile bool leap_aktiv;
 
-void HandListener::onInit(const Leap::Controller& controller) {
-	std::cout << "LeapMotion initialisiert" << std::endl;
-}
-
 void HandListener::onConnect(const Leap::Controller& controller) {
-	std::cout << "LeapMotion verbunden" << std::endl;
 	leap_status = CONNECTED;
 }
 
@@ -28,7 +23,7 @@ void HandListener::onFrame(const Leap::Controller& controller) {
 			leap_status = TRACKING;
 			if (leap_aktiv) {
 				winkelBerechnen(frame.hands()[0], winkel);
-				setAngles(winkel);
+				setWinkel(winkel);
 			}
 			break;
 		default:

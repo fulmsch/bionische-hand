@@ -13,7 +13,6 @@ typedef enum {
 
 class HandListener : public Leap::Listener {
 	public:
-		virtual void onInit(const Leap::Controller&);
 		virtual void onConnect(const Leap::Controller&);
 		virtual void onFrame(const Leap::Controller&);
 	private:

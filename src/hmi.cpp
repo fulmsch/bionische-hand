@@ -14,13 +14,16 @@ GResource *resources_get_resource(void);
 
 Hmi::Hmi(): pincode("1234")
 {
+	//Einbindung der Resourcen (Glade UI Datei und Bilder)
 	g_resources_register(resources_get_resource());
 
 	app = Gtk::Application::create("");
 
-	auto ui = Gtk::Builder::create_from_resource("/hmi/ui.glade");
-
+	//Regelmässiger Aufruf alle 20ms
 	Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_update), 20);
+
+	//Widgets von UI Datei einlesen und verknüpfen
+	auto ui = Gtk::Builder::create_from_resource("/hmi/ui.glade");
 
 	ui->get_widget("notebook_main", notebook_main);
 	notebook_main->signal_switch_page().connect(sigc::mem_fun(*this, &Hmi::main_switch_page));
@@ -157,6 +160,7 @@ bool Hmi::run() {
 }
 
 void Hmi::main_switch_page(Gtk::Widget* page, guint page_number) {
+	//Wird bei Seitenwechsel aufgerufen, laufende Funktionen deaktivieren
 	timeout_zeichen_conn.disconnect();
 	leap_aktiv = false;
 	switch_leap_ein->set_state(false);
@@ -177,7 +181,7 @@ void Hmi::stopp_released() {
 
 void Hmi::reset_pressed() {
 	server->DB_Send.s.reset = true;
-	setAngles(zeichen_grund);
+	setWinkel(zeichen_grund);
 }
 
 void Hmi::reset_released() {
@@ -189,6 +193,7 @@ void Hmi::reset_released() {
 }
 
 bool Hmi::timeout_update() {
+	//Wird alle 20ms aufgerufen, seitenspezifische Update-Funktionen
 	int page = notebook_main->get_current_page();
 	switch (page) {
 		case 1:
@@ -213,6 +218,7 @@ bool Hmi::timeout_update() {
 // Seite "Einrichten"
 void Hmi::einrichten_entsperren_clicked() {
 	if (!entry_einrichten_pincode->get_text().compare(pincode)) {
+		//Pincode ist richtig
 		box_einrichten_bedienung->set_sensitive(true);
 		label_einrichten_pincode_falsch->set_visible(false);
 		entry_einrichten_pincode->delete_text(0, -1);
@@ -220,6 +226,7 @@ void Hmi::einrichten_entsperren_clicked() {
 		button_einrichten_entsperren->set_sensitive(false);
 		entry_einrichten_pincode->set_sensitive(false);
 	} else {
+		//Pincode ist falsch
 		entry_einrichten_pincode->delete_text(0, -1);
 		label_einrichten_pincode_falsch->set_visible(true);
 	}
@@ -234,34 +241,30 @@ void Hmi::einrichten_sperren_clicked() {
 
 void Hmi::einrichten_lin_ein_state_set(Gtk::StateFlags previous_state_flags) {
 	server->DB_Send.s.lin_ein = switch_einrichten_lin_ein->get_state();
-	printf("%x\n", server->DB_Send.a[15]);
 }
 
 void Hmi::einrichten_lin_reset_pressed() {
 	server->DB_Send.s.lin_reset = true;
-	printf("%x\n", server->DB_Send.a[15]);
 }
 
 void Hmi::einrichten_lin_reset_released() {
 	server->DB_Send.s.lin_reset = false;
-	printf("%x\n", server->DB_Send.a[15]);
 }
 
 void Hmi::einrichten_lin_grund_pressed() {
 	server->DB_Send.s.lin_grundstellung = true;
-	setAngles(zeichen_grund);
-	printf("%x\n", server->DB_Send.a[15]);
+	setWinkel(zeichen_grund);
 }
 
 void Hmi::einrichten_lin_grund_released() {
 	server->DB_Send.s.lin_grundstellung = false;
-	printf("%x\n", server->DB_Send.a[15]);
 }
 
 void Hmi::einrichten_minimieren_clicked() {
 	pWindow->iconify();
 }
 
+//Je nach Fehlerstatus reagiert das Startscript anders
 void Hmi::einrichten_schliessen_clicked() {
 	retStatus = 50;
 	pWindow->close();
@@ -281,10 +284,14 @@ void Hmi::update_lin_status() {
 	server->LockArea(srvAreaDB, 2);
 	int status = server->DB_Recv.s.lin_status;
 	server->UnlockArea(srvAreaDB, 2);
+
+	//Die Anzeige wird nur aktualisiert, wenn sich der Status verändert hat
 	if (status != einrichten_lin_prev_status) {
 		if (status & 0b0011111111111111) {
 			text_einrichten_lin_status->override_color(Gdk::RGBA("red"));
 			buffer_einrichten_lin_status->set_text(Glib::ustring("Folgende Lineareinheiten melden einen Fehler: "));
+
+			//Lineareinheiten mit Fehler auflisten
 			for (int i = 0; i < 14; i++) {
 				if (server->DB_Recv.s.lin_status & (1 << i)) {
 					buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\n"));
@@ -303,7 +310,7 @@ void Hmi::update_lin_status() {
 // Seite "Handzeichen"
 void Hmi::zeichen_anfahren(unsigned char* zeichen) {
 	zeichen_aktuell = zeichen;
-	setAngles(zeichen_aktuell);
+	setWinkel(zeichen_aktuell);
 	if (!timeout_zeichen_conn.connected()) {
 		if (radio_zeichen_auto->get_active()) {
 			timeout_zeichen_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_zeichen_auto_grund), timeout_zeichen_value);
@@ -334,7 +341,7 @@ void Hmi::zeichen_metal_clicked() {
 }
 
 void Hmi::zeichen_grund_clicked() {
-	setAngles(zeichen_grund);
+	setWinkel(zeichen_grund);
 	timeout_zeichen_conn.disconnect();
 }
 
@@ -359,22 +366,20 @@ void Hmi::zeichen_eigen5_clicked() {
 }
 
 bool Hmi::timeout_zeichen_auto_grund() {
-	setAngles(zeichen_grund);
-	printf("auto grund\n");
+	setWinkel(zeichen_grund);
 	return false;
 }
 
 bool Hmi::timeout_zeichen_endlos_fahren() {
 	if (radio_zeichen_endlos->get_active()) {
-		setAngles(zeichen_aktuell);
-		printf("endlos fahren\n");
+		setWinkel(zeichen_aktuell);
 		timeout_zeichen_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_zeichen_endlos_grund), timeout_zeichen_value);
 	}
 	return false;
 }
 
 bool Hmi::timeout_zeichen_endlos_grund() {
-	setAngles(zeichen_grund);
+	setWinkel(zeichen_grund);
 	printf("endlos grund\n");
 	timeout_zeichen_conn = Glib::signal_timeout().connect(sigc::mem_fun(*this, &Hmi::timeout_zeichen_endlos_fahren), timeout_zeichen_value);
 	return false;
@@ -419,7 +424,7 @@ void Hmi::update_fein() {
 	for (int i = 0; i < 14; i++) {
 		winkel[i] = arr_adj_fein[i]->get_value();
 	}
-	setAngles(winkel);
+	setWinkel(winkel);
 }
 
 void Hmi::fein_eigen1_clicked() {

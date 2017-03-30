@@ -1,10 +1,7 @@
-//#include <gtkmm.h>
-//#include <glib.h>
 #include "main.h"
 #include "hmi.h"
 #include "leapmotion.h"
 #include "s7server.h"
-//#include "main.h"
 
 volatile int retStatus = 0;
 
@@ -13,9 +10,9 @@ Hmi *hmi;
 
 int main(int argc, char **argv)
 {
-	//Snap7 server
+	//Snap7 server starten
 	server = new S7Server;
-	setAngles(zeichen_grund);
+	setWinkel(zeichen_grund);
 	server->StartTo("192.168.0.100");
 
 	//LeapMotion
@@ -34,48 +31,51 @@ int main(int argc, char **argv)
 	return retStatus;
 }
 
-void setAngles(unsigned char *source) {
+void setWinkel(unsigned char *source) {
+	//Winkel im DB setzen
 	server->LockArea(srvAreaDB, 1);
 	memcpy(server->DB_Send.s.winkel, source, 14);
 	server->UnlockArea(srvAreaDB, 1);
 }
 
-unsigned char zeichen_grund[14] = {0, 0,
-                                   0, 0, 0,
-                                   0, 0, 0,
-                                   0, 0, 0,
-                                   0, 0, 0};
+//Vorgespeicherte Handzeichen
+const unsigned char zeichen_grund[14] = {0, 0,
+                                         0, 0, 0,
+                                         0, 0, 0,
+                                         0, 0, 0,
+                                         0, 0, 0};
 
-unsigned char zeichen_faust[14] = {90, 90,
-                                   90, 90, 90,
-                                   90, 90, 90,
-                                   90, 90, 90,
-                                   90, 90, 90};
+const unsigned char zeichen_faust[14] = {90, 90,
+                                         90, 90, 90,
+                                         90, 90, 90,
+                                         90, 90, 90,
+                                         90, 90, 90};
 
-unsigned char zeichen_peace[14] = {90, 90,
-                                   0, 0, 0,
-                                   0, 0, 0,
-                                   90, 90, 90,
-                                   90, 90, 90};
+const unsigned char zeichen_peace[14] = {90, 90,
+                                         0, 0, 0,
+                                         0, 0, 0,
+                                         90, 90, 90,
+                                         90, 90, 90};
 
-unsigned char zeichen_daumenhoch[14] = {0, 0,
-                                        90, 90, 90,
-                                        90, 90, 90,
-                                        90, 90, 90,
-                                        90, 90, 90};
+const unsigned char zeichen_daumenhoch[14] = {0, 0,
+                                              90, 90, 90,
+                                              90, 90, 90,
+                                              90, 90, 90,
+                                              90, 90, 90};
 
-unsigned char zeichen_mittelfinger[14] = {90, 90,
-                                          90, 90, 90,
-                                          0, 0, 0,
-                                          90, 90, 90,
-                                          90, 90, 90};
+const unsigned char zeichen_mittelfinger[14] = {90, 90,
+                                                90, 90, 90,
+                                                0, 0, 0,
+                                                90, 90, 90,
+                                                90, 90, 90};
 
-unsigned char zeichen_metal[14] = {90, 90,
-                                   0, 0, 0,
-                                   90, 90, 90,
-                                   90, 90, 90,
-                                   0, 0, 0};
+const unsigned char zeichen_metal[14] = {90, 90,
+                                         0, 0, 0,
+                                         90, 90, 90,
+                                         90, 90, 90,
+                                         0, 0, 0};
 
+//Eigene Handzeichen
 unsigned char zeichen1[14] = {0};
 unsigned char zeichen2[14] = {0};
 unsigned char zeichen3[14] = {0};
