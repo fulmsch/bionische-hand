@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-void setAngles(unsigned char*);
+void setWinkel(unsigned char*);
 
 extern unsigned char zeichen_grund[];
 extern unsigned char zeichen_faust[];

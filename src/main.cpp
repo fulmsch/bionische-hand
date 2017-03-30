@@ -39,41 +39,41 @@ void setWinkel(unsigned char *source) {
 }
 
 //Vorgespeicherte Handzeichen
-const unsigned char zeichen_grund[14] = {0, 0,
-                                         0, 0, 0,
-                                         0, 0, 0,
-                                         0, 0, 0,
-                                         0, 0, 0};
+unsigned char zeichen_grund[14] = {0, 0,
+                                   0, 0, 0,
+                                   0, 0, 0,
+                                   0, 0, 0,
+                                   0, 0, 0};
 
-const unsigned char zeichen_faust[14] = {90, 90,
-                                         90, 90, 90,
-                                         90, 90, 90,
-                                         90, 90, 90,
-                                         90, 90, 90};
+unsigned char zeichen_faust[14] = {90, 90,
+                                   90, 90, 90,
+                                   90, 90, 90,
+                                   90, 90, 90,
+                                   90, 90, 90};
 
-const unsigned char zeichen_peace[14] = {90, 90,
-                                         0, 0, 0,
-                                         0, 0, 0,
-                                         90, 90, 90,
-                                         90, 90, 90};
+unsigned char zeichen_peace[14] = {90, 90,
+                                   0, 0, 0,
+                                   0, 0, 0,
+                                   90, 90, 90,
+                                   90, 90, 90};
 
-const unsigned char zeichen_daumenhoch[14] = {0, 0,
-                                              90, 90, 90,
-                                              90, 90, 90,
-                                              90, 90, 90,
-                                              90, 90, 90};
+unsigned char zeichen_daumenhoch[14] = {0, 0,
+                                        90, 90, 90,
+                                        90, 90, 90,
+                                        90, 90, 90,
+                                        90, 90, 90};
 
-const unsigned char zeichen_mittelfinger[14] = {90, 90,
-                                                90, 90, 90,
-                                                0, 0, 0,
-                                                90, 90, 90,
-                                                90, 90, 90};
+unsigned char zeichen_mittelfinger[14] = {90, 90,
+                                          90, 90, 90,
+                                          0, 0, 0,
+                                          90, 90, 90,
+                                          90, 90, 90};
 
-const unsigned char zeichen_metal[14] = {90, 90,
-                                         0, 0, 0,
-                                         90, 90, 90,
-                                         90, 90, 90,
-                                         0, 0, 0};
+unsigned char zeichen_metal[14] = {90, 90,
+                                   0, 0, 0,
+                                   90, 90, 90,
+                                   90, 90, 90,
+                                   0, 0, 0};
 
 //Eigene Handzeichen
 unsigned char zeichen1[14] = {0};
