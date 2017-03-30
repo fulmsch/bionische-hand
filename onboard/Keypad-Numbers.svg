@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created for Onboard -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   height="96"
+   width="96"
+   version="1.0"
+   inkscape:version="0.92.1 r"
+   sodipodi:docname="Test-Numbers.svg">
+  <defs
+     id="defs84" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1344"
+     inkscape:window-height="705"
+     id="namedview82"
+     showgrid="false"
+     inkscape:zoom="4.4689149"
+     inkscape:cx="35.781599"
+     inkscape:cy="48.475191"
+     inkscape:window-x="9"
+     inkscape:window-y="52"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     inkscape:snap-global="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata3346">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Phone-Numbers.svg</dc:title>
+        <cc:license
+           rdf:resource="https://www.gnu.org/licenses/gpl.txt" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Onboard Devel Team at https://launchpad.net/~onboard</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>GPL-3+ license</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Onboard Devel Team</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:source>https://launchpad.net/onboard</dc:source>
+        <dc:relation>This file is part of Onboard</dc:relation>
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Copyright © 2013, 2016, Francesco Fumanti &lt;francesco.fumanti@gmx.net&gt;
+Copyright © 2011-2014, marmuta &lt;marmvta@gmail.com&gt;</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="numbers"
+     style="display:inline">
+    <rect
+       id="KP09"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="0.6311965"
+       x="48.631577" />
+    <rect
+       id="KP08"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="0.6311965"
+       x="24.631582" />
+    <rect
+       id="KP07"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="0.6311965"
+       x="0.63196468" />
+    <rect
+       id="KP03"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="48.63081"
+       x="48.631958" />
+    <rect
+       id="KP02"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="48.63081"
+       x="24.631958" />
+    <rect
+       id="KP01"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="48.63081"
+       x="0.63195896" />
+    <rect
+       id="hide"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="0.6311965"
+       x="72.631195"
+       inkscape:label="" />
+    <rect
+       id="KP00"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="72.631195"
+       x="0.63195896" />
+    <rect
+       id="KP04"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="24.631197"
+       x="0.63157892"
+       inkscape:label="#KP04" />
+    <rect
+       id="KP05"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="24.631197"
+       x="24.631584" />
+    <rect
+       id="KP06"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="24.631197"
+       x="48.631577" />
+    <rect
+       id="BKSP"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="46.736843"
+       y="72.631195"
+       x="24.631577"
+       inkscape:label="" />
+    <rect
+       id="RTRN"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="46.736843"
+       width="22.73646"
+       y="48.631577"
+       x="72.631577"
+       inkscape:label="" />
+    <rect
+       id="move"
+       style="fill:#e5d8b2;stroke:#000000;stroke-width:1.26315784"
+       height="22.737225"
+       width="22.73646"
+       y="24.631197"
+       x="72.631577"
+       inkscape:label="" />
+  </g>
+</svg>
