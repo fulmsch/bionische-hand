@@ -16,8 +16,6 @@ Hmi::Hmi(): pincode("1234")
 {
 	g_resources_register(resources_get_resource());
 
-//	app = new Gtk::Main;
-	
 	app = Gtk::Application::create("");
 
 	auto ui = Gtk::Builder::create_from_resource("/hmi/ui.glade");
@@ -42,12 +40,8 @@ Hmi::Hmi(): pincode("1234")
 	button_reset->override_background_color(Gdk::RGBA("white"));
 	button_reset->override_color(Gdk::RGBA("blue"));
 
-// Seite "Start"
-//	ui->get_widget("fixed_start", fixed_start);
 
 // Seite "Einrichten"
-//	ui->get_widget("box_einrichten", box_einrichten);
-
 	ui->get_widget("entry_einrichten_pincode", entry_einrichten_pincode);
 	entry_einrichten_pincode->signal_activate().connect(sigc::mem_fun(*this, &Hmi::einrichten_entsperren_clicked));
 	ui->get_widget("label_einrichten_pincode_falsch", label_einrichten_pincode_falsch);
@@ -79,8 +73,6 @@ Hmi::Hmi(): pincode("1234")
 	button_einrichten_shutdown->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::einrichten_shutdown_clicked));
 
 // Seite "Handzeichen"
-//	ui->get_widget("box_zeichen", box_zeichen);
-
 	ui->get_widget("button_zeichen_faust", button_zeichen_faust);
 	button_zeichen_faust->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_faust_clicked));
 	ui->get_widget("button_zeichen_peace", button_zeichen_peace);
@@ -109,15 +101,11 @@ Hmi::Hmi(): pincode("1234")
 	button_zeichen_grund->signal_clicked().connect(sigc::mem_fun(*this, &Hmi::zeichen_grund_clicked));
 	ui->get_widget("radio_zeichen_man", radio_zeichen_man);
 	ui->get_widget("radio_zeichen_auto", radio_zeichen_auto);
-//	switch_zeichen_man->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::zeichen_man_state_set));
 	ui->get_widget("radio_zeichen_endlos", radio_zeichen_endlos);
 	adj_zeichen_verz  = Glib::RefPtr<Gtk::Adjustment>::cast_static(ui->get_object("adj_zeichen_verz"));
-//	switch_zeichen_endlos->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::zeichen_endlos_state_set));
 
 
 // Seite "LeapMotion"
-//	ui->get_widget("box_leap", box_leap);
-
 	ui->get_widget("switch_leap_ein", switch_leap_ein);
 	switch_leap_ein->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::leap_ein_state_set));
 	ui->get_widget("text_leap_status", text_leap_status);
@@ -163,32 +151,15 @@ Hmi::Hmi(): pincode("1234")
 	pWindow->show();
 }
 
-//Hmi::~Hmi() {
-//
-//}
+
+bool Hmi::run() {
+	return app->run(*pWindow);
+}
 
 void Hmi::main_switch_page(Gtk::Widget* page, guint page_number) {
-//	printf("seite %d\n", page_number);
 	timeout_zeichen_conn.disconnect();
 	leap_aktiv = false;
 	switch_leap_ein->set_state(false);
-//	switch (page_number) {
-//		case 0:
-//			printf("start\n");
-//			break;
-//		case 1:
-//			printf("einrichten\n");
-//			break;
-//		case 2:
-//			printf("zeichen\n");
-//			break;
-//		case 3:
-//			printf("leap\n");
-//			break;
-//		default:
-//			break;
-//	}
-
 }
 
 void Hmi::stopp_pressed() {
@@ -217,6 +188,29 @@ void Hmi::reset_released() {
 
 }
 
+bool Hmi::timeout_update() {
+	int page = notebook_main->get_current_page();
+	switch (page) {
+		case 1:
+			update_lin_status();
+			break;
+		case 2:
+			timeout_zeichen_value = adj_zeichen_verz->get_value() * 1000;
+			break;
+		case 3:
+			update_leap_status();
+			break;
+		case 4:
+			update_fein();
+			break;
+		default:
+			break;
+	}
+	return true;
+}
+
+
+// Seite "Einrichten"
 void Hmi::einrichten_entsperren_clicked() {
 	if (!entry_einrichten_pincode->get_text().compare(pincode)) {
 		box_einrichten_bedienung->set_sensitive(true);
@@ -283,6 +277,30 @@ void Hmi::einrichten_shutdown_clicked() {
 	pWindow->close();
 }
 
+void Hmi::update_lin_status() {
+	server->LockArea(srvAreaDB, 2);
+	int status = server->DB_Recv.s.lin_status;
+	server->UnlockArea(srvAreaDB, 2);
+	if (status != einrichten_lin_prev_status) {
+		if (status & 0b0011111111111111) {
+			text_einrichten_lin_status->override_color(Gdk::RGBA("red"));
+			buffer_einrichten_lin_status->set_text(Glib::ustring("Folgende Lineareinheiten melden einen Fehler: "));
+			for (int i = 0; i < 14; i++) {
+				if (server->DB_Recv.s.lin_status & (1 << i)) {
+					buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\n"));
+					buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring::format(i + 1));
+				}
+			}
+		} else {
+			buffer_einrichten_lin_status->set_text(Glib::ustring("Keine Fehlermeldungen."));
+			text_einrichten_lin_status->unset_color();
+		}
+	}
+	einrichten_lin_prev_status = status;
+}
+
+
+// Seite "Handzeichen"
 void Hmi::zeichen_anfahren(unsigned char* zeichen) {
 	zeichen_aktuell = zeichen;
 	setAngles(zeichen_aktuell);
@@ -362,31 +380,40 @@ bool Hmi::timeout_zeichen_endlos_grund() {
 	return false;
 }
 
+
+// Seite "LeapMotion"
 void Hmi::leap_ein_state_set(Gtk::StateFlags previous_state_flags) {
 	leap_aktiv = switch_leap_ein->get_state();
 }
 
-bool Hmi::timeout_update() {
-	int page = notebook_main->get_current_page();
-	switch (page) {
-		case 1:
-			update_lin_status();
+void Hmi::update_leap_status() {
+	switch (leap_status) {
+		case MISSING:
+			buffer_leap_status->set_text(Glib::ustring("Es liegt ein Problem mit dem LeapMotion-Controller vor"));
 			break;
-		case 2:
-			timeout_zeichen_value = adj_zeichen_verz->get_value() * 1000;
+		case CONNECTED:
+			buffer_leap_status->set_text(Glib::ustring("Der LeapMotion-Controller wurde verbunden"));
 			break;
-		case 3:
-			update_leap_status();
+		case NOHAND:
+			buffer_leap_status->set_text(Glib::ustring("Keine Hand im Blickfeld erkannt"));
 			break;
-		case 4:
-			update_fein();
+		case TRACKING:
+			if (switch_leap_ein->get_state()) {
+				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung läuft"));
+			} else {
+				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung ist bereit"));
+			}
+			break;
+		case TOOMANYHANDS:
+			buffer_leap_status->set_text(Glib::ustring("Es darf sich nur eine Hand im Blickfeld befinden!"));
 			break;
 		default:
 			break;
 	}
-	return true;
 }
 
+
+// Seite "Feinsteuerung"
 void Hmi::update_fein() {
 	unsigned char winkel[14];
 	for (int i = 0; i < 14; i++) {
@@ -419,58 +446,4 @@ void Hmi::fein_speichern(unsigned char *zeichen) {
 	for (int i = 0; i < 14; i++) {
 		zeichen[i] = arr_adj_fein[i]->get_value();
 	}
-}
-
-void Hmi::update_leap_status() {
-	switch (leap_status) {
-		case MISSING:
-			buffer_leap_status->set_text(Glib::ustring("Es liegt ein Problem mit dem LeapMotion-Controller vor"));
-			break;
-		case CONNECTED:
-			buffer_leap_status->set_text(Glib::ustring("Der LeapMotion-Controller wurde verbunden"));
-			break;
-		case NOHAND:
-			buffer_leap_status->set_text(Glib::ustring("Keine Hand im Blickfeld erkannt"));
-			break;
-		case TRACKING:
-			if (switch_leap_ein->get_state()) {
-				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung läuft"));
-			} else {
-				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung ist bereit"));
-			}
-			break;
-		case TOOMANYHANDS:
-			buffer_leap_status->set_text(Glib::ustring("Es darf sich nur eine Hand im Blickfeld befinden!"));
-			break;
-		default:
-			break;
-	}
-}
-
-void Hmi::update_lin_status() {
-	server->LockArea(srvAreaDB, 2);
-	int status = server->DB_Recv.s.lin_status;
-	server->UnlockArea(srvAreaDB, 2);
-	if (status != einrichten_lin_prev_status) {
-		if (status & 0b0011111111111111) {
-			text_einrichten_lin_status->override_color(Gdk::RGBA("red"));
-			buffer_einrichten_lin_status->set_text(Glib::ustring("Folgende Lineareinheiten melden einen Fehler: "));
-			for (int i = 0; i < 14; i++) {
-				if (server->DB_Recv.s.lin_status & (1 << i)) {
-					buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\n"));
-					buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring::format(i + 1));
-				}
-			}
-	//		buffer_einrichten_lin_status->insert_at_cursor(Glib::ustring("\b\b."));
-		} else {
-			buffer_einrichten_lin_status->set_text(Glib::ustring("Keine Fehlermeldungen."));
-			text_einrichten_lin_status->unset_color();
-		}
-	}
-	einrichten_lin_prev_status = status;
-}
-
-bool Hmi::run() {
-//	return app->iteration(true);
-	return app->run(*pWindow);
 }

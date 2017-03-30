@@ -7,7 +7,6 @@ class Hmi
 {
 	public:
 		Hmi();
-//		virtual ~Hmi();
 		bool run();
 
 	private:
@@ -27,13 +26,8 @@ class Hmi
 		Gtk::Button *button_stopp = nullptr;
 		Gtk::Button *button_reset = nullptr;
 
-		// Seite "Start"
-//		Gtk::Fixed *fixed_start = nullptr;
-
 
 		// Seite "Einrichten"
-//		Gtk::Box *box_einrichten = nullptr;
-
 		Glib::ustring pincode;
 
 		void einrichten_entsperren_clicked();
@@ -70,8 +64,6 @@ class Hmi
 
 
 		// Seite "Handzeichen"
-//		Gtk::Box *box_zeichen = nullptr;
-
 		void zeichen_faust_clicked();
 		void zeichen_peace_clicked();
 		void zeichen_daumenhoch_clicked();
@@ -85,8 +77,6 @@ class Hmi
 		void zeichen_eigen5_clicked();
 
 		void zeichen_grund_clicked();
-//		void zeichen_man_state_set(Gtk::StateFlags);
-//		void zeichen_endlos_state_set(Gtk::StateFlags);
 
 		Gtk::Button      *button_zeichen_faust = nullptr;
 		Gtk::Button      *button_zeichen_peace = nullptr;
@@ -117,8 +107,6 @@ class Hmi
 
 
 		// Seite "LeapMotion"
-//		Gtk::Box *box_leap = nullptr;
-
 		void leap_ein_state_set(Gtk::StateFlags);
 
 		Gtk::Switch     *switch_leap_ein = nullptr;
