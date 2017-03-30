@@ -3,6 +3,8 @@
 # Es darf nur eine Instanz laufen
 pgrep hmi > /dev/null && exit
 
+cd "${BASH_SOURCE%/*}" || exit
+
 while true
 do
 	authbind ./hmi
