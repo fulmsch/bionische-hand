@@ -2,6 +2,9 @@
     <gresource prefix="/hmi/">
         <!-- text files such as XML can be compressed to save memory -->
         <file compressed="true">ui.glade</file>
+		<file>leap0.png</file>
+		<file>leap1.png</file>
+		<file>leap2.png</file>
         <file>logo_msw.png</file>
         <file>hand.jpg</file>
     </gresource>

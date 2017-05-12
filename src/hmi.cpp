@@ -111,8 +111,7 @@ Hmi::Hmi(): pincode("1234")
 // Seite "LeapMotion"
 	ui->get_widget("switch_leap_ein", switch_leap_ein);
 	switch_leap_ein->signal_state_flags_changed().connect(sigc::mem_fun(*this, &Hmi::leap_ein_state_set));
-	ui->get_widget("text_leap_status", text_leap_status);
-	buffer_leap_status = text_leap_status->get_buffer();
+	ui->get_widget("image_leap_status", image_leap_status);
 	leap_status = MISSING;
 
 
@@ -394,23 +393,17 @@ void Hmi::leap_ein_state_set(Gtk::StateFlags previous_state_flags) {
 void Hmi::update_leap_status() {
 	switch (leap_status) {
 		case MISSING:
-			buffer_leap_status->set_text(Glib::ustring("Es liegt ein Problem mit dem LeapMotion-Controller vor"));
 			break;
 		case CONNECTED:
-			buffer_leap_status->set_text(Glib::ustring("Der LeapMotion-Controller wurde verbunden"));
 			break;
 		case NOHAND:
-			buffer_leap_status->set_text(Glib::ustring("Keine Hand im Blickfeld erkannt"));
+			image_leap_status->set_from_resource("/hmi/leap0.png");
 			break;
 		case TRACKING:
-			if (switch_leap_ein->get_state()) {
-				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung läuft"));
-			} else {
-				buffer_leap_status->set_text(Glib::ustring("Die Handerfassung ist bereit"));
-			}
+			image_leap_status->set_from_resource("/hmi/leap1.png");
 			break;
 		case TOOMANYHANDS:
-			buffer_leap_status->set_text(Glib::ustring("Es darf sich nur eine Hand im Blickfeld befinden!"));
+			image_leap_status->set_from_resource("/hmi/leap2.png");
 			break;
 		default:
 			break;

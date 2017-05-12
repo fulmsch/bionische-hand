@@ -109,9 +109,8 @@ class Hmi
 		// Seite "LeapMotion"
 		void leap_ein_state_set(Gtk::StateFlags);
 
-		Gtk::Switch     *switch_leap_ein = nullptr;
-		Gtk::TextView   *text_leap_status = nullptr;
-		Glib::RefPtr<Gtk::TextBuffer> buffer_leap_status;
+		Gtk::Switch *switch_leap_ein = nullptr;
+		Gtk::Image  *image_leap_status = nullptr;
 
 
 		// Seite "Feineinstellung"
